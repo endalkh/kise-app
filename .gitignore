@@ -51,3 +51,6 @@ app.*.map.json
 # The committed *.example.json files document the schema.
 /env/*.json
 !/env/*.example.json
+
+# Serena code-intelligence agent state (machine-local tooling).
+/.serena/
