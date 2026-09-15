@@ -50,3 +50,15 @@ clean: ## flutter clean
 
 .PHONY: check
 check: analyze test ## Run analyze + test (CI check)
+
+.PHONY: run-prod
+run-prod: ## Run against the deployed backend (env/prod.json); make run-prod d="device"
+	flutter run $(if $(d),-d "$(d)",) --dart-define-from-file=env/prod.json
+
+.PHONY: build-apk
+build-apk: ## Build a release APK pointed at production
+	flutter build apk --release --dart-define-from-file=env/prod.json
+
+.PHONY: build-ios
+build-ios: ## Build a release iOS app pointed at production
+	flutter build ios --release --dart-define-from-file=env/prod.json

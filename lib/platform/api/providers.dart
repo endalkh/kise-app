@@ -23,11 +23,13 @@ import 'resources/units_api.dart';
 /// reaches the backend on the developer's machine (a phone cannot use `localhost` or the Android
 /// emulator's `10.0.2.2`; it needs the Mac's LAN IP, e.g. `http://192.168.1.4:27707`).
 ///
-/// The default is the Android emulator's host alias, which is the common case when no define is
-/// passed. A test or `main()` can still override this provider directly.
+/// The default is the deployed Heroku backend, so a release build points at production with no
+/// define. For local development, pass `--dart-define=KISE_API_URL=...` (see `make env`/`make run`)
+/// to reach a backend on the developer's machine. A test or `main()` can still override this
+/// provider directly.
 const _defaultApiUrl = String.fromEnvironment(
   'KISE_API_URL',
-  defaultValue: 'http://10.0.2.2:8000',
+  defaultValue: 'https://kise-backend-eee2d4b0336e.herokuapp.com',
 );
 
 final apiConfigProvider = Provider<ApiConfig>(

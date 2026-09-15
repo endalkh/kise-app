@@ -51,6 +51,8 @@ app.*.map.json
 # The committed *.example.json files document the schema.
 /env/*.json
 !/env/*.example.json
+# prod.json holds the public (non-secret) production API URL and is committed on purpose.
+!/env/prod.json
 
 # Serena code-intelligence agent state (machine-local tooling).
 /.serena/
