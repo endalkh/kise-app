@@ -35,3 +35,18 @@ run: ## Run the app (make run d="endalk’s iPhone"); uses env/dev.json if prese
 .PHONY: run-ios
 run-ios: ## Run on the iPhone 16 Pro simulator
 	flutter run -d "iPhone 16 Pro" $(if $(wildcard env/dev.json),--dart-define-from-file=env/dev.json,)
+
+.PHONY: format
+format: ## Format Dart sources in place
+	dart format lib test
+
+.PHONY: format-check
+format-check: ## Verify formatting without writing changes
+	dart format --output=none --set-exit-if-changed lib test
+
+.PHONY: clean
+clean: ## flutter clean
+	flutter clean
+
+.PHONY: check
+check: analyze test ## Run analyze + test (CI check)
