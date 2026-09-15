@@ -7,7 +7,12 @@ flutter pub get
 flutter analyze
 flutter test                        # 60 tests
 flutter run -d "iPhone 16 Pro"      # or: flutter run -d chrome
+flutter run --release               # profile-free build, for timing the real thing
 ```
+
+`make help` lists shortcuts for the same things. The two that matter day to day: `make sim` (iOS
+Simulator against a backend on `localhost`) and `make iphone` (the physical phone, pointed at the
+Mac's LAN IP via `env/dev.json`). Add `MODE=release` to either.
 
 ## Layout
 
