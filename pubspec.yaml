@@ -1,0 +1,48 @@
+name: kise
+description: "Kise — personal expense tracker with Ethiopian and Gregorian calendars."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management. Riverpod because the app's state is a graph of derived values
+  # (selected Period -> expenses -> summary) and it recomputes those declaratively.
+  flutter_riverpod: ^2.6.1
+
+  # HTTP, with an interceptor for the bearer token.
+  dio: ^5.7.0
+
+  # Routing with an auth guard.
+  go_router: ^14.6.2
+
+  # Keychain / Keystore. The token never goes in SharedPreferences.
+  flutter_secure_storage: ^9.2.2
+
+  # Number and currency formatting.
+  intl: ^0.20.3
+
+  # The daily spending chart on the dashboard.
+  fl_chart: ^0.69.2
+
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    # The coin mark, rendered from the landing page's CSS by tool/icons/render.sh.
+    - assets/brand/coin.png
+  # Note: a bundled NotoSansEthiopic is still wanted for Android, where Ethiopic coverage is
+  # inconsistent. iOS and macOS render Amharic from system fonts, so it is not blocking yet.
