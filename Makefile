@@ -56,10 +56,18 @@ iphone-prod: ## Run on the physical iPhone against the deployed backend
 
 .PHONY: iphone-install
 iphone-install: ## Install a standalone release build on the iPhone, then exit (no attached session)
+	# `flutter install` never builds — it ships whatever sits in build/ios/iphoneos, and the copy
+	# there is not purged between modes, so a previous `make iphone` leaves Runner.debug.dylib and
+	# kernel_blob.bin behind. iOS 14+ refuses to launch a debug build outside Flutter tooling
+	# ("debug mode Flutter apps can only be launched from Flutter tooling..."), so wipe first.
+	rm -rf build/ios/iphoneos build/ios/Debug-iphoneos
+	flutter build ios --release --dart-define-from-file=$(PROD_ENV)
+	@test -z "$$(find build/ios/iphoneos/Runner.app \( -name kernel_blob.bin -o -name 'Runner.debug.dylib' \) 2>/dev/null)" \
+		|| { echo "Refusing to install: build/ios/iphoneos/Runner.app still has debug artifacts."; exit 1; }
 	flutter install --release -d "$(IPHONE)"
 	@echo
-	@echo "Installed. Launch it from the home screen — no Mac needed."
-	@echo "Release builds use the compiled-in default API URL (the deployed backend), not env/dev.json."
+	@echo "Installed a release build. If the phone says the developer is untrusted, tap through:"
+	@echo "  Settings > General > VPN & Device Management > Apple Development: <your Apple ID> > Trust"
 	@$(MAKE) --no-print-directory profile-expiry
 
 .PHONY: profile-expiry
